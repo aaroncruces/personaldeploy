@@ -1,0 +1,9 @@
+---
+local:
+ - ansible
+ - https://github.com/kewlfft/ansible-aur
+ - mkpasswd (https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module)
+hosts:
+  - ssh with a way to connect
+  - python
+ 

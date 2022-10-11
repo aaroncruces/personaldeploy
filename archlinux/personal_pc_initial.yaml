@@ -1,0 +1,89 @@
+---
+- hosts: archlinux
+# become: true
+
+  tasks:
+    - name: copies a pacman config file to enable multilib, paralell downloads and IloveCandy
+      copy:
+        src: ./pacman.conf
+        dest: /etc/pacman.conf
+        owner: root
+        group: root
+        mode: '0644'
+        backup: true
+
+    - name: updates cache and upgrades existing packages
+      pacman: 
+        update_cache: true
+        upgrade: true
+
+    - name: installs reflector
+      pacman:
+        name: reflector
+        state: present
+
+    - name: updates mirror lists with reflector (RUNS ONCE, THEN FAILS, IT'S NORMAL)
+      shell: "[[ ! -f /etc/pacman.d/reflectorlock ]] && reflector --latest 200 --protocol https --sort rate -c 'United States' --verbose --save  /etc/pacman.d/mirrorlist && touch /etc/pacman.d/reflectorlock || true"
+      args:
+        executable:
+          /bin/bash
+
+    - name: installs the packages that I always use.
+      pacman:
+        state: present
+        name:
+          - zsh
+          - tmux
+          - neovim
+          - git
+          - btop
+          - htop
+          - flatpak
+          - docker
+          - linux-headers
+          - dkms
+          - ntfs-3g
+          - mtools
+          - dosfstools
+          - btrfs-progs
+          - nodejs
+          - npm
+          - python
+          - python-pip
+          - powerline
+          - powerline-fonts
+          - stow
+            # on non-servers only
+          - pipewire
+          - lib32-pipewire
+          - pipewire-alsa
+          - pipewire-pulse
+          - pipewire-jack
+          - lib32-pipewire-jack
+          - pulsemixer
+          - amd-ucode
+          - vlc
+
+    - name: aliases neovim as vi.
+      file:
+        src: /usr/bin/nvim
+        dest: /usr/bin/vi
+        state: link
+
+    - name: aliases neovim as vim.
+      file:
+        src: /usr/bin/nvim
+        dest: /usr/bin/vim
+        state: link
+
+    - name: aliases neovim as nvi.
+      file:
+        src: /usr/bin/nvim
+        dest: /usr/bin/nvi
+        state: link
+
+    - name: aliases neovim as v.
+      file:
+        src: /usr/bin/nvim
+        dest: /usr/bin/v
+        state: link
