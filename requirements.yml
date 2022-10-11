@@ -3,6 +3,10 @@ local:
  - ansible
  - https://github.com/kewlfft/ansible-aur
  - mkpasswd (https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module)
+ - ansible-stow:
+   - mkdir archlinux/library && cd archlinux/library
+   - wget https://raw.githubusercontent.com/caian-org/ansible-stow/v1.1.0/stow
+   - cd ../..
 hosts:
   - ssh with a way to connect
   - python

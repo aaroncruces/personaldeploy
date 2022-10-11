@@ -124,7 +124,18 @@
         upgrade: yes
       become: yes
       become_user: aurbuilder
-          
+
+    - name: clones this repo to deploy my dotfiles
+      git:
+        repo: https://github.com/aaroncruces/personaldeploy.git
+        dest: /home/aaron/devel/ansible
+        clone: yes
+        update: yes
+
+    - name: stow common configfiles
+      stow:
+        state: latest
+
 # todo: stow my configs
 # services
 # ssh
